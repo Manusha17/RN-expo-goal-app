@@ -54,23 +54,30 @@ const Goal = () => {
           <Text style={styles.addGoalBtnText}>Add Goal</Text>
         </Pressable> */}
       </View>
-      <View
-        style={{
-          borderTopWidth: 1,
-          borderTopColor: "#ccc",
-          marginTop: 4,
-          marginBottom: 14,
-          paddingVertical: 6,
-        }}
-      >
+      <View style={{ borderTopWidth: 1, borderTopColor: "#ccc" }}></View>
+      {goals.length > 0 ? (
         <FlatList
           data={goals}
           renderItem={(item) => {
             return <GoalItem goalText={item.item} />;
           }}
           alwaysBounceVertical={false}
+          contentContainerStyle={{
+            marginTop: 4,
+            marginBottom: 14,
+            paddingVertical: 6,
+          }}
         ></FlatList>
-      </View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+          }}
+        >
+          <Text style={styles.noGoalsText}>No Goals Added Yet!</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -97,6 +104,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
     fontWeight: "bold",
+  },
+  noGoalsText: {
+    color: "#FBB25A",
+    textAlign: "center",
+    fontSize: 16,
   },
 });
 
