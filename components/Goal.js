@@ -3,16 +3,25 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  TouchableOpacity,
   Pressable,
   FlatList,
+  TouchableHighlight,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GoalItem from "./GoalItem";
 
 const Goal = () => {
   const [goalText, setGoalText] = useState("");
   const [goals, setGoals] = useState([]);
+
+  const onDelete = (index) => {
+    if (index > -1)
+      setGoals((currentGoals) => {
+        const currentGoalsCopy = [...currentGoals];
+        currentGoalsCopy.splice(index, 1);
+        return currentGoalsCopy;
+      });
+  };
 
   const handleTextInput = (text) => {
     setGoalText(text);
@@ -35,13 +44,11 @@ const Goal = () => {
           }}
           onChangeText={handleTextInput}
         />
-        <TouchableOpacity
-          activeOpacity={0.4}
-          style={styles.addGoalBtn}
-          onPress={handleAddGoal}
-        >
-          <Text style={styles.addGoalBtnText}>Add Goal</Text>
-        </TouchableOpacity>
+        <TouchableHighlight underlayColor="white" onPress={handleAddGoal}>
+          <View style={styles.addGoalBtn}>
+            <Text style={styles.addGoalBtnText}>Add Goal</Text>
+          </View>
+        </TouchableHighlight>
         {/* <Pressable
           style={({ pressed }) => [
             {
@@ -58,8 +65,14 @@ const Goal = () => {
       {goals.length > 0 ? (
         <FlatList
           data={goals}
-          renderItem={(item) => {
-            return <GoalItem goalText={item.item} />;
+          renderItem={({ item, index }) => {
+            return (
+              <GoalItem
+                goalText={item}
+                key={index}
+                onDelete={() => onDelete(index)}
+              />
+            );
           }}
           alwaysBounceVertical={false}
           contentContainerStyle={{

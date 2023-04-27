@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-export default function GoalItem({ goalText }) {
+export default function GoalItem({ goalText, onDelete }) {
   return (
     <View style={styles.goalItem}>
       <Text style={{ flexWrap: "nowrap", flex: 1 }}>{goalText}</Text>
@@ -18,8 +18,8 @@ export default function GoalItem({ goalText }) {
         <TouchableOpacity
           activeOpacity={0.4}
           underlayColor="#DDDDDD"
-          onPress={() => alert("Pressed!")}
-          style={styles.deleteBtn}
+          onPress={onDelete}
+          style={[styles.completeBtn, styles.deleteBtn]}
         >
           <Ionicons name="md-trash-outline" size={18} color="red" />
         </TouchableOpacity>
@@ -56,11 +56,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   deleteBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 20,
-    borderWidth: 1,
-    paddingHorizontal: 2,
     borderColor: "red",
   },
 });
