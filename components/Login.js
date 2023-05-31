@@ -1,4 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import * as AuthSession from "expo-auth-session";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
@@ -41,6 +42,20 @@ const Login = ({ navigation }) => {
     }
   };
 
+  const logout = async () => {
+    const isRevokeSuccessful = await AuthSession.revokeAsync(
+      {
+        token,
+        clientId:
+          "273091585146-3hnjoc2tlurra4b1g4gnjgbk26m4ebvc.apps.googleusercontent.com",
+      },
+      Google.discovery
+    );
+    if (isRevokeSuccessful) {
+      setUserInfo(null);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -72,6 +87,12 @@ const Login = ({ navigation }) => {
               onPress={() => navigation.navigate("Home")}
             >
               <Text style={styles.loginText}>Go to Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => logout()}
+            >
+              <Text style={styles.loginText}>Logout</Text>
             </TouchableOpacity>
           </View>
         )}
